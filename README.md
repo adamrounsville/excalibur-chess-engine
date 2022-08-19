@@ -1,12 +1,13 @@
 # ♟ Excalibur – A Chess Engine
 
 A chess engine which implements:
+- The [Minimax algorithm](https://en.wikipedia.org/wiki/Minimax) for optimal movement analysis
 - [Alpha-beta pruning](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning) for move searching
 - [Move ordering](https://www.chessprogramming.org/Move_Ordering) based off heuristics like captures and promotions
 - Tomasz Michniewski's [Simplified Evaluation Function](https://www.chessprogramming.org/Simplified_Evaluation_Function) for board evaluation and piece-square tables
 - A command-line user interface
 
-It uses Python 3.8 with Mypy type hints and unit + integration tests.
+It uses Python 3.8 with mypy type hints and unit + integration tests.
 
 ## Install
 
@@ -16,7 +17,7 @@ It uses Python 3.8 with Mypy type hints and unit + integration tests.
 
 Start the engine with:
 
-`python3 ui.py`
+`python3 chessboard.py`
 
 ```bash
 Start as [w]hite or [b]lack:
