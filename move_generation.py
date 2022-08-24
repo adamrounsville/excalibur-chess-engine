@@ -11,7 +11,7 @@ MATE_THRESHOLD = 999000000
 
 def next_move(depth: int, board: chess.Board, debug=True) -> chess.Move:
     """
-    What is the next best move?
+    Return the next best move
     """
     debug_info.clear()
     debug_info["nodes"] = 0
@@ -30,7 +30,7 @@ def get_ordered_moves(board: chess.Board) -> List[chess.Move]:
     """
     Get legal moves
     Attempt to sort moves by best to worst
-    Use piece values (and positional gains/losses) to weight captures
+    Use piece values (and positional gains/losses) to weigh captures
     """
     end_game = check_end_game(board)
 
@@ -44,7 +44,7 @@ def get_ordered_moves(board: chess.Board) -> List[chess.Move]:
 
 def minimax_root(depth: int, board: chess.Board) -> chess.Move:
     """
-    What is the highest value move per our evaluation function?
+    Return the highest value move per the evaluation function
     """
     # White always wants to maximize (and black to minimize) the board score
     # according to evaluate_board()
@@ -62,10 +62,7 @@ def minimax_root(depth: int, board: chess.Board) -> chess.Move:
         if board.can_claim_draw():
             value = 0.0
         else:
-            value = minimax(
-                depth - 1, board, -float("inf"),
-                float("inf"),
-                not maximize)
+            value = minimax(depth - 1, board, -float("inf"), float("inf"), not maximize)
 
         board.pop()
 
@@ -95,8 +92,8 @@ def minimax(
     if board.is_checkmate():
         # The previous move resulted in checkmate
         return -MATE_SCORE if is_maximizing_player else MATE_SCORE
-    # When the game is over and it's not a checkmate it's a draw
-    # In this case, don't evaluate. Just return a neutral result: zero
+    # When the game is over and it's not a checkmate, it's a draw
+    # In this case, don't evaluate, just return a neutral result: zero
     elif board.is_game_over():
         return 0
 
@@ -114,10 +111,8 @@ def minimax(
                 curr_move -= 1
             elif curr_move < -MATE_THRESHOLD:
                 curr_move += 1
-            best_move = max(
-                best_move,
-                curr_move,
-            )
+
+            best_move = max(best_move, curr_move)
 
             board.pop()
 
@@ -137,10 +132,7 @@ def minimax(
             elif curr_move < -MATE_THRESHOLD:
                 curr_move += 1
 
-            best_move = min(
-                best_move,
-                curr_move,
-            )
+            best_move = min(best_move, curr_move)
 
             board.pop()
 

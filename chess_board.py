@@ -28,7 +28,7 @@ def render(board: chess.Board) -> str:
     Print a side-relative chess board with special chess characters
     """
     board_string = list(str(board))
-    uni_pieces = {
+    chess_pieces = {
         "R": "♖",
         "N": "♘",
         "B": "♗",
@@ -44,9 +44,9 @@ def render(board: chess.Board) -> str:
         ".": "·",
     }
 
-    for idx, char in enumerate(board_string):
-        if char in uni_pieces:
-            board_string[idx] = uni_pieces[char]
+    for index, char in enumerate(board_string):
+        if char in chess_pieces:
+            board_string[index] = chess_pieces[char]
 
     ranks = ["1", "2", "3", "4", "5", "6", "7", "8"]
     display = []

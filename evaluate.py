@@ -7,26 +7,26 @@ import chess
 
 piece_value = {
     chess.PAWN: 100,
-    chess.ROOK: 500,
     chess.KNIGHT: 320,
     chess.BISHOP: 330,
+    chess.ROOK: 500,
     chess.QUEEN: 900,
     chess.KING: 20000
 }
 
-pawnEvalWhite = [
-     0,  0,   0,   0,   0,   0,  0,   0,
-     5, 10,  10, -20, -20,  10, 10,   5,
-     5, -5, -10,   0,   0, -10, -5,   5,
-     0,  0,   0,  20,  20,   0,  0,   0,
-     5,  5,  10,  25,  25,  10,  5,   5,
-    10, 10,  20,  30,  30,  20,  10, 10,
-    50, 50,  50,  50,  50,  50,  50, 50,
-     0,  0,   0,   0,   0,   0,   0,  0,
+pawn_eval_white = [
+     0,  0,   0,   0,   0,   0,  0,  0,
+     5, 10,  10, -20, -20,  10, 10,  5,
+     5, -5, -10,   0,   0, -10, -5,  5,
+     0,  0,   0,  20,  20,   0,  0,  0,
+     5,  5,  10,  25,  25,  10,  5,  5,
+    10, 10,  20,  30,  30,  20, 10, 10,
+    50, 50,  50,  50,  50,  50, 50, 50,
+     0,  0,   0,   0,   0,   0,  0,  0,
 ]
-pawnEvalBlack = list(reversed(pawnEvalWhite))
+pawn_eval_black = list(reversed(pawn_eval_white))
 
-knightEval = [
+knight_eval = [
     -50, -40, -30, -30, -30, -30, -40, -50,
     -40, -20,   0,   0,   0,   0, -20, -40,
     -30,   0,  10,  15,  15,  10,   0, -30,
@@ -37,7 +37,7 @@ knightEval = [
     -50, -40, -30, -30, -30, -30, -40, -50,
 ]
 
-bishopEvalWhite = [
+bishop_eval_white = [
     -20, -10, -10, -10, -10, -10, -10, -20,
     -10,   5,   0,   0,   0,   0,   5, -10,
     -10,  10,  10,  10,  10,  10,  10, -10,
@@ -47,9 +47,9 @@ bishopEvalWhite = [
     -10,   0,   0,   0,   0,   0,   0, -10,
     -20, -10, -10, -10, -10, -10, -10, -20,
 ]
-bishopEvalBlack = list(reversed(bishopEvalWhite))
+bishop_eval_black = list(reversed(bishop_eval_white))
 
-rookEvalWhite = [
+rook_eval_white = [
      0,  0,  0,  5,  5,  0,  0,  0,
     -5,  0,  0,  0,  0,  0,  0, -5,
     -5,  0,  0,  0,  0,  0,  0, -5,
@@ -59,9 +59,9 @@ rookEvalWhite = [
      5, 10, 10, 10, 10, 10, 10,  5,
      0,  0,  0,  0,  0,  0,  0,  0,
 ]
-rookEvalBlack = list(reversed(rookEvalWhite))
+rook_eval_black = list(reversed(rook_eval_white))
 
-queenEval = [
+queen_eval = [
     -20, -10, -10, -5, -5, -10, -10, -20,
     -10,   0,   0,  0,  0,   0,   0, -10,
     -10,   0,   5,  5,  5,   5,   0, -10,
@@ -72,19 +72,19 @@ queenEval = [
     -20, -10, -10, -5, -5, -10, -10, -20,
 ]
 
-kingEvalWhite = [
+king_eval_white = [
      20,  30,  10,   0,   0,  10,  30,  20,
      20,  20,   0,   0,   0,   0,  20,  20,
     -10, -20, -20, -20, -20, -20, -20, -10,
-    20, -30, -30, -40, -40, -30, -30,  -20,
+     20, -30, -30, -40, -40, -30, -30, -20,
     -30, -40, -40, -50, -50, -40, -40, -30,
     -30, -40, -40, -50, -50, -40, -40, -30,
     -30, -40, -40, -50, -50, -40, -40, -30,
     -30, -40, -40, -50, -50, -40, -40, -30,
 ]
-kingEvalBlack = list(reversed(kingEvalWhite))
+king_eval_black = list(reversed(king_eval_white))
 
-kingEvalEndGameWhite = [
+king_eval_end_game_white = [
      50, -30, -30, -30, -30, -30, -30, -50,
     -30, -30,   0,   0,   0,  0,  -30, -30,
     -30, -10,  20,  30,  30,  20, -10, -30,
@@ -94,12 +94,12 @@ kingEvalEndGameWhite = [
     -30, -20, -10,   0,   0, -10, -20, -30,
     -50, -40, -30, -20, -20, -30, -40, -50,
 ]
-kingEvalEndGameBlack = list(reversed(kingEvalEndGameWhite))
+king_eval_end_game_black = list(reversed(king_eval_end_game_white))
 
 
 def move_value(board: chess.Board, move: chess.Move, endgame: bool) -> float:
     """
-    How good is a move?
+    Determine how good a move is as determined by its value
     A promotion is great
     A weaker piece taking a stronger piece is good
     A stronger piece taking a weaker piece is bad
@@ -117,6 +117,7 @@ def move_value(board: chess.Board, move: chess.Move, endgame: bool) -> float:
         raise Exception(f"A piece was expected at {move.from_square}")
 
     capture_value = 0.0
+
     if board.is_capture(move):
         capture_value = evaluate_capture(board, move)
 
@@ -130,7 +131,7 @@ def move_value(board: chess.Board, move: chess.Move, endgame: bool) -> float:
 
 def evaluate_capture(board: chess.Board, move: chess.Move) -> float:
     """
-    Given a capturing move, weight the trade being made
+    Given a capturing move, weigh the trade being made
     """
     if board.is_en_passant(move):
         return piece_value[chess.PAWN]
@@ -139,7 +140,7 @@ def evaluate_capture(board: chess.Board, move: chess.Move) -> float:
     _from = board.piece_at(move.from_square)
     if _to is None or _from is None:
         raise Exception(
-            f"Pieces were expected at _both_ {move.to_square} and {move.from_square}"
+            f"Pieces were expected at both {move.to_square} and {move.from_square}"
         )
 
     return piece_value[_to.piece_type] - piece_value[_from.piece_type]
@@ -152,36 +153,34 @@ def evaluate_piece(piece: chess.Piece, square: chess.Square, end_game: bool) -> 
     piece_type = piece.piece_type
     mapping = []
     if piece_type == chess.PAWN:
-        mapping = pawnEvalWhite if piece.color == chess.WHITE else pawnEvalBlack
+        mapping = pawn_eval_white if piece.color == chess.WHITE else pawn_eval_black
     if piece_type == chess.KNIGHT:
-        mapping = knightEval
+        mapping = knight_eval
     if piece_type == chess.BISHOP:
-        mapping = bishopEvalWhite if piece.color == chess.WHITE else bishopEvalBlack
+        mapping = bishop_eval_white if piece.color == chess.WHITE else bishop_eval_black
     if piece_type == chess.ROOK:
-        mapping = rookEvalWhite if piece.color == chess.WHITE else rookEvalBlack
+        mapping = rook_eval_white if piece.color == chess.WHITE else rook_eval_black
     if piece_type == chess.QUEEN:
-        mapping = queenEval
+        mapping = queen_eval
     if piece_type == chess.KING:
         # Use end game piece-square tables if neither side has a queen
         if end_game:
             mapping = (
-                kingEvalEndGameWhite
-                if piece.color == chess.WHITE
-                else kingEvalEndGameBlack
+                king_eval_end_game_white if piece.color == chess.WHITE else king_eval_end_game_black
             )
         else:
-            mapping = kingEvalWhite if piece.color == chess.WHITE else kingEvalBlack
+            mapping = king_eval_white if piece.color == chess.WHITE else king_eval_black
 
     return mapping[square]
 
 
 def evaluate_board(board: chess.Board) -> float:
     """
-    Evaluates the full board and determines which player is in a most favorable position
+    Evaluates the full board and determines which player is in the most favorable position
     The sign indicates the side:
         (+) for white
         (-) for black
-    The magnitude, how big of an advantage that player has
+    The magnitude is how big of an advantage that player has
     """
     total = 0
     end_game = check_end_game(board)
@@ -191,8 +190,7 @@ def evaluate_board(board: chess.Board) -> float:
         if not piece:
             continue
 
-        value = piece_value[piece.piece_type] + \
-            evaluate_piece(piece, square, end_game)
+        value = piece_value[piece.piece_type] + evaluate_piece(piece, square, end_game)
         total += value if piece.color == chess.WHITE else -value
 
     return total
@@ -213,9 +211,7 @@ def check_end_game(board: chess.Board) -> bool:
         piece = board.piece_at(square)
         if piece and piece.piece_type == chess.QUEEN:
             queens += 1
-        if piece and (
-            piece.piece_type == chess.BISHOP or piece.piece_type == chess.KNIGHT
-        ):
+        if piece and (piece.piece_type == chess.BISHOP or piece.piece_type == chess.KNIGHT):
             minors += 1
 
     if queens == 0 or (queens == 2 and minors <= 1):
