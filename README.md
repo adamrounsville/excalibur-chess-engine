@@ -17,7 +17,7 @@ It uses Python 3.8 with mypy type hints and unit + integration tests.
 
 Start the engine with:
 
-`python3 chessboard.py`
+`python3 chess_board.py`
 
 ```bash
 Start as [w]hite or [b]lack:
@@ -40,10 +40,8 @@ Your move (e.g. b1c3):
 
 There are unit tests for the engine, UI, and evaluation modules.
 
-`python -m unittest discover test/`
+`python3 -m unittest discover tests/`
 
-Type hints:
-
-`pip install -r requirements-dev.txt`
+Type checking:
 
 `mypy .`
